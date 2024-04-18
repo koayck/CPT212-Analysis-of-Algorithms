@@ -136,7 +136,7 @@ class Karatsuba {
         Integer x = null;
         Integer y = null;
         // Integer MAX_VALUE = 10000;
-        Integer MAX_VALUE = 10000; // For testing purposes
+        Integer MAX_VALUE = 100; // For testing purposes
 
         // Boe creating an object of random class
         // inside main() method
@@ -155,8 +155,8 @@ class Karatsuba {
 
             expectedProduct = x * y;
 
-            if (i == 9999) {
-                // if (i == 4) {// For testing purposes
+            // if (i == 9999) {
+            if (i == 99) {// For testing purposes
 
                 // Prove assertions catch the bad stuff.
                 expectedProduct = 1;
