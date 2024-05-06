@@ -1,4 +1,4 @@
-# CPT212-Analysis-of-Algorithms
+# CPT212-Analysis-of-Algorithms 
 
 ## Introduction
 This repository contains our implementation and analysis of two multiplication algorithms: the Simple Multiplication Algorithm and the Karatsuba Algorithm. We have implemented these algorithms in Java, inserted counters to count the primitive operations, and plotted graphs to compare their time complexities.
