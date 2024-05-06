@@ -132,8 +132,9 @@ class Karatsuba {
     // Method 3
     // Main driver function
     public static void main(String[] args) {
+        FileWriter csvWriter = null;
         try {
-            FileWriter csvWriter = new FileWriter("data.csv");
+            csvWriter = new FileWriter("data.csv", true); // true to append, false to overwrite
             csvWriter.append("NumberOfDigits,TotalOperations\n");
 
             BigInteger x, y;
@@ -181,6 +182,14 @@ class Karatsuba {
             csvWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (csvWriter != null) {
+                try {
+                    csvWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
