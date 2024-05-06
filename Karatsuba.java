@@ -1,27 +1,12 @@
 /// Java Program to Implement Karatsuba Algorithm
 
-// Importing Random class from java.util packahge
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
-// import javafx.application.Application;
-// import javafx.scene.Scene;
-// import javafx.scene.chart.LineChart;
-// import javafx.scene.chart.NumberAxis;
-// import javafx.scene.chart.XYChart;
-// import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.Random;
 
-// import javafx.application.Application;
-// import javafx.scene.Scene;
-// import javafx.scene.chart.LineChart;
-// import javafx.scene.chart.NumberAxis;
-// import javafx.scene.chart.XYChart;
-// import javafx.stage.Stage;
-
-// MAin class
+// MAin class 
 class Karatsuba {
 
     // Operation counters
@@ -37,147 +22,106 @@ class Karatsuba {
     static ArrayList<Long> operationsList = new ArrayList<>();
 
     // Main driver method
-    public static long mult(long x, long y) {
-        countMethodCalls++; // Incrementing method call counter
+    public static BigInteger mult(BigInteger x, BigInteger y) {
+
+        countMethodCalls++; // Increment assignment count for each method call
+
+        countComparisons += 3; // Increment comparison count for <, > and && operators
+        // (unsure) because previous version no call this method
+        countMethodCalls += 2; // Increment method call for both compareTo method
 
         // Checking only if input is within range
-        if (x < 10 && y < 10) {
-            countComparisons += 3; // For the if condition(two < and one &&), if equals to true, so it will be //
-                                   // adding 3 before the function returns
-
-            countMultiplications++; // For the multiplication
-            countMethodCalls++; // For returning the value
-            // Multiplying the inputs entered
-            return x * y;
+        if (x.compareTo(BigInteger.TEN) < 0 && y.compareTo(BigInteger.TEN) < 0) {
+            countMultiplications++; // Increment multiplication count for x.multiply(y)
+            countMethodCalls++; // Increment method call for return the value
+            return x.multiply(y);
         }
 
-        countComparisons += 3; // For the if condition(two < and one &&), if false, so the adding 3 inside if
-        // block will not be executed
-
-        // Declaring variables in order to
-        // Find length of both integer
-        // numbers x and y
+        // Declaring variables in order to find length of both integer numbers x and y
         int noOneLength = numLength(x);
         int noTwoLength = numLength(y);
-        countAssignments += 2; // For assigning noOneLength and noTwoLength
+        countAssignments += 2; // Increment assignment count for noOneLength and noTwoLength
 
-        // Finding maximum length from both numbers
-        // using math library max function
-        int maxNumLength = Math.max(noOneLength, noTwoLength); // not sure how many in the Math.max()
-        // checkback
-        countComparisons += 2; // Two comparisons in Math.max (not sure)
+        // Finding maximum length from both numbers using math library max function
+        int maxNumLength = Math.max(noOneLength, noTwoLength);
+        countMethodCalls++; // Increment method call for Math.max method
+        countAssignments++; // Increment assignment count for maxNumLength
 
         // Rounding up the divided Max length
-        Integer halfMaxNumLength = (maxNumLength / 2) + (maxNumLength % 2);
-        countAdditions++; // For the addition
-        countMultiplications += 2; // For the division and modulus
-        countAssignments++; // For halfMaxNumLength
+        BigInteger halfMaxNumLength = BigInteger.valueOf((maxNumLength / 2) + (maxNumLength % 2));
+        countMultiplications += 2; // Increment division count for maxNumLength / 2 and maxNumLength % 2
+        countAdditions++; // Increment addition count for the sum
+        countMethodCalls++; // Increment method call for BigInteger.valueOf method
+        countAssignments++; // Increment assignment count for halfMaxNumLength
 
         // Multiplier
-        long maxNumLengthTen = (long) Math.pow(10, halfMaxNumLength); // not sure how many in the Math.pow()
-        // checkback
-        countMethodCalls++; // For Math.pow call
-        countAssignments++; // For maxNumLengthTen
+        BigInteger maxNumLengthTen = BigInteger.TEN.pow(halfMaxNumLength.intValue());
+        countMethodCalls += 2; // Increment method call for .intValue() and .pow() method
+        countAssignments++; // Increment assignment count for maxNumLengthTen
 
         // Compute the expressions
-        long a = x / maxNumLengthTen;
-        long b = x % maxNumLengthTen;
-        long c = y / maxNumLengthTen;
-        long d = y % maxNumLengthTen;
-        countMultiplications += 4; // For the division and modulus
-        countAssignments += 4; // For a, b, c, d
+        BigInteger a = x.divide(maxNumLengthTen);
+        BigInteger b = x.mod(maxNumLengthTen);
+        BigInteger c = y.divide(maxNumLengthTen);
+        BigInteger d = y.mod(maxNumLengthTen);
+        countMethodCalls += 4; // Increment method call for divide and mod methods
+        countAssignments += 4; // Increment assignment count for a, b, c and d
 
-        // Compute all mutilpying variables
-        // needed to get the multiplication
-        long z0 = mult(a, c);
-        long z1 = mult(a + b, c + d);
-        long z2 = mult(b, d);
-        countAdditions += 2; // Two additions in arguments of mult
-        countAssignments += 3; // For z0, z1, z2
+        // Compute all mutilpying variables needed to get the multiplication
+        BigInteger z0 = mult(a, c);
+        BigInteger z1 = mult(a.add(b), c.add(d));
+        BigInteger z2 = mult(b, d);
+        countMethodCalls += 5; // Increment method call for mult(3) and add(2) methods
+        countAssignments += 3; // Increment assignment count for z0, z1 and z2
 
-        long ans = (z0 *
-                (long) Math.pow(10, halfMaxNumLength * 2) +
-                ((z1 - z0 - z2) * (long) Math.pow(10, halfMaxNumLength) + z2)); // not sure how many in this total
-
-        countMultiplications += 3; // For the three multiplications
-        countAdditions += 4; // For the 2 additions and 2 subtractions
-        countMethodCalls += 2; // Another Math.pow call(Not sure)
-
-        countAssignments++; // For the assignment
+        BigInteger ans = z0.multiply(BigInteger.TEN.pow(halfMaxNumLength.intValue() * 2))
+                .add(z1.subtract(z0).subtract(z2).multiply(BigInteger.TEN.pow(halfMaxNumLength.intValue()))
+                        .add(z2));
+        countMethodCalls += 10; // Increment method call for multiply(2), add(2), subtract(2), pow(2) and
+                                // intValue(2) methods
+        countAssignments++; // Increment assignment count for ans
 
         // Returning the final count
-        countTotalOperations = countAdditions +
-                countMultiplications +
-                countComparisons +
-                countAssignments +
-                countMethodCalls;
+        countTotalOperations = countAdditions + countMultiplications + countComparisons + countAssignments
+                + countMethodCalls;
 
-        countMethodCalls++; // For the return statement
+        countMethodCalls++; // Increment method call for return the value
 
         return ans;
     }
 
     // Method 1
     // To calculate length of the number
-    public static int numLength(long n) {
-        countMethodCalls++; // Incrementing method call counter
+    public static int numLength(BigInteger n) {
+        countMethodCalls++; // Increment assignment count for each method call
+
         int noLen = 0;
-        countAssignments++; // For the assignment
-        while (n > 0) {
-            countComparisons++; // Comparison in the while equals to true condition
+        countAssignments++; // Increment assignment count for noLen
 
-            noLen++; // ++ is an operator but not noLen = noLen + 1
-            countAdditions++; // For the addition of noLen
-            countAssignments++; // Assignment to noLen
+        while (n.compareTo(BigInteger.ZERO) > 0) {
+            countComparisons++; // Increment comparison count for n > 0
+            countMethodCalls++; // Increment method call for compareTo method
 
-            n /= 10;
-            countMultiplications++; // division in the loop for n
-            countAssignments++; // Assignment in the loop for n
+            noLen++; // Equal to noLen = noLen + 1
+            countAdditions++; // Increment addition count for noLen++
+            countAssignments++; // Increment assignment count for noLen++
+
+            n = n.divide(BigInteger.TEN);
+            countMethodCalls++; // Increment method call for divide method
+            countAssignments++; // Increment assignment count for n
         }
 
-        countMethodCalls++; // For the return statement
+        countMethodCalls++; // Increment method call for return the value
         // Returning length of number n
         return noLen;
     }
 
-    // // Method 3
-    // // To write the results to a CSV file
-    // public static void writeToCSV(int nDigits, long totalOperations) {
-    // try {
-    // FileWriter csvWriter = new FileWriter("data.csv", true);
-    // csvWriter.append(nDigits + "," + totalOperations + "\n");
-    // csvWriter.flush();
-    // csvWriter.close();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // }
-    // }
-
-    // // Method 3
-    // // To write the results to a CSV file
-    // public static void writeToCSV(int nDigits, long totalOperations, int a, int
-    // b) {
-    // try {
-    // FileWriter csvWriter = new FileWriter("data.csv", true);
-    // csvWriter.append(nDigits + "," + totalOperations + a + "," + b + "," + "\n");
-    // csvWriter.flush();
-    // csvWriter.close();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // }
-    // }
-
-    // Method 3
+    // Method 2
     // To write the results to a CSV file
-    public static void writeToCSV(
-            int nDigits,
-            long totalOperations,
-            int x,
-            int y) {
+    public static void writeToCSV(int nDigits, long totalOperations, int x, int y) {
         try {
             FileWriter csvWriter = new FileWriter("data.csv", true);
-            csvWriter.append(
-                    nDigits + "," + totalOperations + "," + x + "," + y + "\n");
+            csvWriter.append(nDigits + "," + totalOperations + "," + x + "," + y + "\n");
             csvWriter.flush();
             csvWriter.close();
         } catch (IOException e) {
@@ -185,162 +129,33 @@ class Karatsuba {
         }
     }
 
-    // // Method 2
-    // // Main driver function
-    // public static void main(String[] args) {
-    // // Showcasing karatsuba multiplication
-
-    // try {
-    // FileWriter csvWriter = new FileWriter("data.csv");
-    // csvWriter.append("RandomNumber,TotalOperations\n");
-
-    // // // Case 1: Big integer lengths
-    // long expectedProduct = 1234 * 5678;
-    // long actualProduct = mult(1234, 5678);
-
-    // // Printing the expected and corresponding actual product
-    // System.out.println("Expected 1 : " + expectedProduct);
-    // System.out.println("Actual 1 : " + actualProduct + "\n\n");
-
-    // assert (expectedProduct == actualProduct);
-
-    // expectedProduct = 102 * 313;
-    // actualProduct = mult(102, 313);
-
-    // System.out.println("Expected 2 : " + expectedProduct);
-    // System.out.println("Actual 2 : " + actualProduct + "\n\n");
-
-    // assert (expectedProduct == actualProduct);
-
-    // expectedProduct = 1345 * 63456;
-    // actualProduct = mult(1345, 63456);
-
-    // System.out.println("Expected 3 : " + expectedProduct);
-    // System.out.println("Actual 3 : " + actualProduct + "\n\n");
-
-    // assert (expectedProduct == actualProduct);
-
-    // Integer x = null;
-    // Integer y = null;
-    // // Integer MAX_VALUE = 10000;
-    // Integer MAX_VALUE = 100; // For testing purposes
-
-    // // Boe creating an object of random class
-    // // inside main() method
-    // Random r = new Random();
-
-    // for (int i = 0; i < MAX_VALUE; i++) {
-    // x = (int) r.nextInt(MAX_VALUE);
-    // y = (int) r.nextInt(MAX_VALUE);
-
-    // // Reset counters
-    // countAdditions = 0;
-    // countMultiplications = 0;
-    // countComparisons = 0;
-    // countAssignments = 0;
-    // countMethodCalls = 0;
-    // countTotalOperations = 0;
-
-    // expectedProduct = x * y;
-
-    // // if (i == 9999) {
-    // if (i == 99) {// For testing purposes
-
-    // // Prove assertions catch the bad stuff.
-    // expectedProduct = 1;
-    // }
-    // actualProduct = mult(x, y);
-
-    // // Again printing the expected and
-    // // corresponding actual product
-    // // System.out.println("Expected: " + expectedProduct);
-    // // System.out.println("Actual: " + actualProduct + "\n\n");
-
-    // // Printing expected and actual products along with the count of operations
-    // System.out.println("Test " + (i + 1) + ":");
-    // System.out.println("Expected: " + expectedProduct);
-    // System.out.println("Actual: " + actualProduct);
-    // // System.out.println("Operations count:");
-    // // System.out.println(" Additions: " + countAdditions);
-    // // System.out.println(" Multiplications: " + countMultiplications);
-    // // System.out.println(" Comparisons: " + countComparisons);
-    // // System.out.println(" Assignments: " + countAssignments);
-    // // System.out.println(" Method Calls: " + countMethodCalls + "\n");
-    // System.out.println("Total Operations: " + countTotalOperations + "\n");
-
-    // assert (expectedProduct == actualProduct);
-    // }
-    // csvWriter.flush();
-    // csvWriter.close();
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // }
-    // }
-
-    // Method 2
+    // Method 3
     // Main driver function
     public static void main(String[] args) {
-        // Showcasing karatsuba multiplication
-
         try {
             FileWriter csvWriter = new FileWriter("data.csv");
             csvWriter.append("NumberOfDigits,TotalOperations\n");
 
-            // Case 1: Big integer lengths
-            long expectedProduct = 1234 * 5678;
-            long actualProduct = mult(1234, 5678);
+            BigInteger x, y;
 
-            // Printing the expected and corresponding actual product
-            System.out.println("Expected 1 : " + expectedProduct);
-            System.out.println("Actual 1 : " + actualProduct + "\n\n");
+            BigInteger expectedProduct, actualProduct;
 
-            assert (expectedProduct == actualProduct);
-
-            expectedProduct = 102 * 313;
-            actualProduct = mult(102, 313);
-
-            System.out.println("Expected 2 : " + expectedProduct);
-            System.out.println("Actual 2 : " + actualProduct + "\n\n");
-
-            assert (expectedProduct == actualProduct);
-
-            expectedProduct = 1345 * 63456;
-            actualProduct = mult(1345, 63456);
-
-            System.out.println("Expected 3 : " + expectedProduct);
-            System.out.println("Actual 3 : " + actualProduct + "\n\n");
-
-            assert (expectedProduct == actualProduct);
-
-            Integer x = null;
-            Integer y = null;
-            String xString = null;
-            String yString = null;
-
-            // Integer MAX_VALUE = 10000;
-            Integer MAX_VALUE = 10000; // For testing purposes
-
-            // Boe creating an object of random class
-            // inside main() method
             Random r = new Random(42);
 
-            for (int i = 0; i < MAX_VALUE; i++) {
-                x = (int) r.nextInt(MAX_VALUE);
-                y = (int) r.nextInt(MAX_VALUE);
-                xString = x.toString();
-                yString = y.toString();
+            // Loop to test the Karatsuba algorithm from 1-1000 digits
+            for (int digits = 1; digits <= 1000; digits++) {
 
-                while (xString.length() != yString.length()) {
-                    // // Generate random strings
-                    x = (int) r.nextInt(MAX_VALUE);
-                    y = (int) r.nextInt(MAX_VALUE);
-                    xString = x.toString();
-                    yString = y.toString();
-                    // x = Integer.toString(r.nextInt(MAX_VALUE));
-                    // y = Integer.toString(r.nextInt(MAX_VALUE));
-                }
+                // Generating numbers with 'digits' decimal digits
+                BigInteger minValue = BigInteger.TEN.pow(digits - 1);
+                BigInteger maxValue = BigInteger.TEN.pow(digits).subtract(BigInteger.ONE);
 
-                // Reset counters
+                // Formula: min + (int)(Math.random() * ((max – min) + 1));
+                x = new BigInteger(minValue.bitLength(), r).mod(maxValue.subtract(minValue).add(BigInteger.ONE))
+                        .add(minValue);
+                y = new BigInteger(minValue.bitLength(), r).mod(maxValue.subtract(minValue).add(BigInteger.ONE))
+                        .add(minValue);
+
+                // Resetting the operation counters
                 countAdditions = 0;
                 countMultiplications = 0;
                 countComparisons = 0;
@@ -348,32 +163,19 @@ class Karatsuba {
                 countMethodCalls = 0;
                 countTotalOperations = 0;
 
-                expectedProduct = x * y;
-
-                // if (i == 9999) {
-                if (i == 9999) { // For testing purposes
-                    // Prove assertions catch the bad stuff.
-                    expectedProduct = 1;
-                }
+                // Calculating the expected and actual product, then later comparing them
+                expectedProduct = x.multiply(y);
                 actualProduct = mult(x, y);
 
-                // Again printing the expected and
-                // corresponding actual product
-                // System.out.println("Expected: " + expectedProduct);
-                // System.out.println("Actual: " + actualProduct + "\n\n");
-
-                // Printing expected and actual products along with the count of operations
-                System.out.println("Test " + (i + 1) + ":");
-                System.out.println("Expected: " + expectedProduct);
-                System.out.println("Actual: " + actualProduct);
+                // Print the results to the console for each test
+                System.out.println("Test with " + digits + " digits:" + "\n");
+                System.out.println("Expected: " + expectedProduct + "\n");
+                System.out.println("Actual: " + actualProduct + "\n");
                 System.out.println("Total Operations: " + countTotalOperations + "\n");
 
-                // Write the results to the CSV file
-                writeToCSV(String.valueOf(x).length(), countTotalOperations, x, y);
-                // writeToCSV(numLength(x), countTotalOperations, x, y);
-                // writeToCSV(numLength(x), countTotalOperations, x, y);
+                writeToCSV(digits, countTotalOperations, x.intValue(), y.intValue());
 
-                assert (expectedProduct == actualProduct);
+                assert expectedProduct.equals(actualProduct);
             }
             csvWriter.flush();
             csvWriter.close();
