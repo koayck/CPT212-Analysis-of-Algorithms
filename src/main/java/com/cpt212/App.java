@@ -1,5 +1,6 @@
 package com.cpt212;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -19,6 +20,12 @@ public class App {
     FileWriter csvWriter = null;
 
     try {
+      // create the folder if it does not exist
+      File file = new File("data");
+      if (!file.exists()) {
+        file.mkdirs(); // This will create the directory if it doesn't exist
+      }
+
       csvWriter = new FileWriter(fileName, false);
       csvWriter.append("NumberOfDigits,TotalOperations\n");
 
