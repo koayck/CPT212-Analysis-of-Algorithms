@@ -15,4 +15,5 @@ public interface IMultiplication {
     BigInteger mult(BigInteger x, BigInteger y);
     void resetCounters();
     long getTotalOperationsCount();
+    long calculateCGn(int n);
 }

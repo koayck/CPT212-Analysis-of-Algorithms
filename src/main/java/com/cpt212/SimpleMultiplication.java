@@ -24,6 +24,7 @@ class SimpleMultiplication implements IMultiplication {
   public long countAssignments = 0;
   public long countMethodCalls = 0;
   public long countElementReferences = 0;
+  public long countReturn = 0;
 
   public long countTotalOperations = 0; // For total primitive operations count in the program
 
@@ -110,7 +111,7 @@ class SimpleMultiplication implements IMultiplication {
       countMethodCalls++;
       countSubtractions++;
       countComparisons++;
-      for (int k = 0; k < strNum2.length() - 1 - i; k++) { // ask
+      for (int k = 0; k < strNum2.length() - 1 - i; k++) {
         partialLine.append("0");
         countMethodCalls++;
         countAssignments++;
@@ -124,12 +125,12 @@ class SimpleMultiplication implements IMultiplication {
         countComparisons++; // for loop to check j>=0
       }
 
-      System.out.println(
-        partialLine + " partial products for (" + num1 + " x " + n2 + ")"
-      );
-      System.out.println(
-        carryLine + " carriers   for (" + num1 + " x " + n2 + ")"
-      );
+      // System.out.println(
+      //   partialLine + " partial products for (" + num1 + " x " + n2 + ")"
+      // );
+      // System.out.println(
+      //   carryLine + " carriers   for (" + num1 + " x " + n2 + ")"
+      // );
       System.out.println("--------------------");
 
       result =
@@ -146,7 +147,7 @@ class SimpleMultiplication implements IMultiplication {
 
     System.out.println("Product: " + result + "\n");
 
-    countMethodCalls++; // for return
+    countReturn++; // for return
 
     countTotalOperations =
       countAdditions +
@@ -156,7 +157,8 @@ class SimpleMultiplication implements IMultiplication {
       countComparisons +
       countAssignments +
       countElementReferences +
-      countMethodCalls;
+      countMethodCalls +
+      countReturn;
 
     return result;
   }
@@ -165,10 +167,14 @@ class SimpleMultiplication implements IMultiplication {
   // To reset the operation counters
   public void resetCounters(){
     countAdditions = 0;
+    countSubtractions = 0;
     countMultiplications = 0;
+    countDivisions = 0;
     countComparisons = 0;
     countAssignments = 0;
+    countElementReferences = 0;
     countMethodCalls = 0;
+    countReturn = 0;
     countTotalOperations = 0;
   }
 
@@ -176,5 +182,11 @@ class SimpleMultiplication implements IMultiplication {
   // Getter for total operations count
   public long getTotalOperationsCount() {
     return countTotalOperations;
+  }
+
+  // Method 4
+  // To calculate the value for cg(n) for big O analysis
+  public long calculateCGn(int n) {
+    return 28 * n * n;
   }
 }

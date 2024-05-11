@@ -153,4 +153,10 @@ class Karatsuba implements IMultiplication {
   public long getTotalOperationsCount() {
     return countTotalOperations;
   }
+
+  // Method 5
+  // To calculate the value for cg(n) for big O analysis
+  public long calculateCGn(int n) {
+    return 28 * n * n; // @TODO: @JackyChung2003: Update value of c in cg(n)
+  }
 }

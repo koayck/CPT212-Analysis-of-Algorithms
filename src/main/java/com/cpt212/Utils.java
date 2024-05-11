@@ -13,11 +13,11 @@ import java.io.IOException;
  * @version 1.0
  */
 public class Utils {
-  public static void writeToCSV(String fileName, int nDigits, long totalOperations, int x, int y) {
+  public static void writeToCSV(String fileName, int n, int x, int y, long totalOperations, long cgN) {
     try {
       FileWriter csvWriter = new FileWriter(fileName, true);
       csvWriter.append(
-        nDigits + "," + totalOperations + "," + x + "," + y + "\n"
+        n + ","  + x + "," + y + "," + totalOperations + "," + cgN + "\n"
       );
       csvWriter.flush();
       csvWriter.close();

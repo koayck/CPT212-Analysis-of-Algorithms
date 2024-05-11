@@ -27,7 +27,7 @@ public class App {
       }
 
       csvWriter = new FileWriter(fileName, false);
-      csvWriter.append("NumberOfDigits,TotalOperations\n");
+      csvWriter.append("n,multiplicand,multiplier,f(n),cg(n)\n");
 
       csvWriter.flush();
       csvWriter.close();
@@ -41,7 +41,7 @@ public class App {
       final int MAX_NUMBER_DIGIT = 10; // To set the maximum number of digits
 
       // Instatiating an object of random class
-      Random r = new Random(42);
+      Random r = new Random(1);
 
       // Loop to test the Karatsuba algorithm from 1-1000 digits
       for (int n = 1; n <= MAX_NUMBER_DIGIT; n++) {
@@ -73,9 +73,10 @@ public class App {
         Utils.writeToCSV(
           fileName,
           n,
-          multiplication.getTotalOperationsCount(),
           x.intValue(),
-          y.intValue()
+          y.intValue(),
+          multiplication.getTotalOperationsCount(),
+          multiplication.calculateCGn(n)
         );
 
         // if expectedProduct != actualProduct, throw an error
