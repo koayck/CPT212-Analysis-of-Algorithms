@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.cpt212</groupId>
-  <artifactId>analysis-of-algorithms</artifactId>
+  <artifactId>cpt212-analysis-of-algorithms</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <name>analysis-of-algorithms</name>
