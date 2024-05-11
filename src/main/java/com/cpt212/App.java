@@ -19,8 +19,11 @@ public class App {
     FileWriter csvWriter = null;
 
     try {
-      csvWriter = new FileWriter(fileName, true); // true to append, false to overwrite
+      csvWriter = new FileWriter(fileName, false);
       csvWriter.append("NumberOfDigits,TotalOperations\n");
+
+      csvWriter.flush();
+      csvWriter.close();
 
       BigInteger expectedProduct = null;
       BigInteger actualProduct = null;
@@ -71,8 +74,6 @@ public class App {
         // if expectedProduct != actualProduct, throw an error
         assert expectedProduct.equals(actualProduct);
       }
-      csvWriter.flush();
-      csvWriter.close();
     } catch (IOException e) {
       e.printStackTrace();
     } finally {

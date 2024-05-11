@@ -85,7 +85,7 @@ class Karatsuba implements IMultiplication {
     countMethodCalls += 5; // Increment method call for mult(3) and add(2) methods
     countAssignments += 3; // Increment assignment count for z0, z1 and z2
 
-    BigInteger ans = z0
+    BigInteger result = z0
       .multiply(BigInteger.TEN.pow(halfMaxNumLength.intValue() * 2))
       .add(
         z1
@@ -96,7 +96,7 @@ class Karatsuba implements IMultiplication {
       );
     countMethodCalls += 10; // Increment method call for multiply(2), add(2), subtract(2), pow(2) and
     // intValue(2) methods
-    countAssignments++; // Increment assignment count for ans
+    countAssignments++; // Increment assignment count for result
 
     countMethodCalls++; // Increment method call for return the value
     
@@ -108,7 +108,7 @@ class Karatsuba implements IMultiplication {
       countAssignments +
       countMethodCalls;
 
-    return ans;
+    return result;
   }
 
   // Method 2
