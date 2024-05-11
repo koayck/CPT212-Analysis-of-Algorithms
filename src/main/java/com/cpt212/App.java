@@ -40,6 +40,12 @@ public class App {
 
       final int MAX_NUMBER_DIGIT = 10; // To set the maximum number of digits
 
+      // ask the user for the number of digits
+      // Scanner scanner = new Scanner(System.in);
+      // System.out.println("Enter the number of digits: ");
+      // int n = scanner.nextInt();
+      // final int MAX_NUMBER_DIGIT = n; // To set the maximum number of digits
+
       // Instatiating an object of random class
       Random r = new Random(1);
 
