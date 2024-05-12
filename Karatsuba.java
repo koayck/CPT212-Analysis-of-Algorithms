@@ -11,10 +11,14 @@ class Karatsuba {
 
     // Operation counters
     static long countAdditions = 0;
+    static long countSubtractions = 0;
     static long countMultiplications = 0;
+    static long countDivisions = 0;
+    static long countModulus = 0;
     static long countComparisons = 0;
     static long countAssignments = 0;
     static long countMethodCalls = 0;
+    static long countMethodReturns = 0;
 
     static long countTotalOperations = 0; // For total primitive operations count in the program
 
@@ -34,6 +38,12 @@ class Karatsuba {
         if (x.compareTo(BigInteger.TEN) < 0 && y.compareTo(BigInteger.TEN) < 0) {
             countMultiplications++; // Increment multiplication count for x.multiply(y)
             countMethodCalls++; // Increment method call for return the value
+
+            // Returning the final count
+            // countTotalOperations = countAdditions + countMultiplications +
+            // countComparisons + countAssignments
+            // + countMethodCalls;
+            countTotalOperations = updateOperationCount();
             return x.multiply(y);
         }
 
@@ -81,11 +91,14 @@ class Karatsuba {
                                 // intValue(2) methods
         countAssignments++; // Increment assignment count for ans
 
-        // Returning the final count
-        countTotalOperations = countAdditions + countMultiplications + countComparisons + countAssignments
-                + countMethodCalls;
-
         countMethodCalls++; // Increment method call for return the value
+
+        // Returning the final count
+        // countTotalOperations = countAdditions + countMultiplications +
+        // countComparisons + countAssignments
+        // + countMethodCalls;
+
+        countTotalOperations = updateOperationCount();
 
         return ans;
     }
@@ -118,15 +131,35 @@ class Karatsuba {
 
     // Method 2
     // To write the results to a CSV file
-    public static void writeToCSV(int nDigits, long totalOperations, int x, int y) {
-        try {
-            FileWriter csvWriter = new FileWriter("data.csv", true);
-            csvWriter.append(nDigits + "," + totalOperations + "," + x + "," + y + "\n");
-            csvWriter.flush();
-            csvWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    // public static void writeToCSV(int nDigits, long totalOperations, int x, int
+    // y) {
+    // try {
+    // FileWriter csvWriter = new FileWriter("data.csv", false);
+    // csvWriter.append(nDigits + "," + totalOperations + "," + x + "," + y + "\n");
+    // csvWriter.flush();
+    // csvWriter.close();
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // }
+    // }
+    public static void writeToCSV(int nDigits, long totalOperations, int x, int y) throws IOException {
+        FileWriter csvWriter = new FileWriter("data.csv", true); // true to append
+        csvWriter.append(nDigits + "," + totalOperations + "," + x + "," + y + "\n");
+        csvWriter.flush();
+        csvWriter.close();
+    }
+
+    public static long updateOperationCount() {
+        return countAdditions + countMultiplications + countComparisons + countAssignments + countMethodCalls;
+    }
+
+    private static void resetOperationCounts() {
+        countAdditions = 0;
+        countMultiplications = 0;
+        countComparisons = 0;
+        countAssignments = 0;
+        countMethodCalls = 0;
+        countTotalOperations = 0;
     }
 
     // Method 3
@@ -134,8 +167,10 @@ class Karatsuba {
     public static void main(String[] args) {
         FileWriter csvWriter = null;
         try {
-            csvWriter = new FileWriter("data.csv", true); // true to append, false to overwrite
+            csvWriter = new FileWriter("data.csv", false); // true to append, false to overwrite
             csvWriter.append("NumberOfDigits,TotalOperations\n");
+            csvWriter.flush();
+            csvWriter.close();
 
             BigInteger x, y;
 
@@ -157,12 +192,14 @@ class Karatsuba {
                         .add(minValue);
 
                 // Resetting the operation counters
-                countAdditions = 0;
-                countMultiplications = 0;
-                countComparisons = 0;
-                countAssignments = 0;
-                countMethodCalls = 0;
-                countTotalOperations = 0;
+                // countAdditions = 0;
+                // countMultiplications = 0;
+                // countComparisons = 0;
+                // countAssignments = 0;
+                // countMethodCalls = 0;
+                // countTotalOperations = 0;
+
+                resetOperationCounts();
 
                 // Calculating the expected and actual product, then later comparing them
                 expectedProduct = x.multiply(y);
@@ -178,8 +215,8 @@ class Karatsuba {
 
                 assert expectedProduct.equals(actualProduct);
             }
-            csvWriter.flush();
-            csvWriter.close();
+            // csvWriter.flush();
+            // csvWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
