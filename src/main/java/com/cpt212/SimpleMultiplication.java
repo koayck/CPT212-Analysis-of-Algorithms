@@ -125,12 +125,12 @@ class SimpleMultiplication implements IMultiplication {
         countComparisons++; // for loop to check j>=0
       }
 
-      // System.out.println(
-      //   partialLine + " partial products for (" + num1 + " x " + n2 + ")"
-      // );
-      // System.out.println(
-      //   carryLine + " carriers   for (" + num1 + " x " + n2 + ")"
-      // );
+      System.out.println(
+        partialLine + " partial products for (" + num1 + " x " + n2 + ")"
+      );
+      System.out.println(
+        carryLine + " carriers   for (" + num1 + " x " + n2 + ")"
+      );
       System.out.println("--------------------");
 
       result =
