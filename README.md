@@ -58,5 +58,4 @@ We have implemented the Simple Multiplication Algorithm as described in the assi
 We have also implemented the Karatsuba Algorithm, a fast multiplication algorithm that uses divide and conquer strategy. We have inserted counters at appropriate locations in the program to count the primitive operations executed by the Karatsuba algorithm.
 
 ## Results and Discussion
-
-We have plotted graphs showing the number of operations versus the number of digits (n) for both algorithms. We have compared and discussed the results obtained in the experiment and the time complexity of the theoretical analysis. We have also compared the time complexity of the Simple Multiplication Algorithm versus the Karatsuba Algorithm based on the experiment results.
+We have plotted graphs showing the number of operations versus the number of digits (n) for both algorithms. We have compared and discussed the results obtained in the experiment and the time complexity of the theoretical analysis. We have also compared the time complexity of the Simple Multiplication Algorithm versus the Karatsuba Algorithm based on the experiment results. 
