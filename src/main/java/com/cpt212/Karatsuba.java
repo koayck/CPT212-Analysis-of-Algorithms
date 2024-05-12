@@ -44,6 +44,9 @@ class Karatsuba implements IMultiplication {
     if (x.compareTo(BigInteger.TEN) < 0 && y.compareTo(BigInteger.TEN) < 0) {
       countMultiplications++; // Increment multiplication count for x.multiply(y)
       countMethodReturns++; // Increment method call for return the value
+
+      // Returning the final count
+      countTotalOperations = updateOperationCount();
       return x.multiply(y);
     }
 
@@ -60,7 +63,8 @@ class Karatsuba implements IMultiplication {
     // Rounding up the divided Max length
     BigInteger halfMaxNumLength = BigInteger.valueOf(
         (maxNumLength / 2) + (maxNumLength % 2));
-    countMultiplications += 2; // Increment division count for maxNumLength / 2 and maxNumLength % 2
+    countDivisions++; // Increment division count for maxNumLength / 2
+    countModulus++; // and maxNumLength % 2
     countAdditions++; // Increment addition count for the sum
     countMethodCalls++; // Increment method call for BigInteger.valueOf method
     countAssignments++; // Increment assignment count for halfMaxNumLength
@@ -101,15 +105,7 @@ class Karatsuba implements IMultiplication {
     countMethodCalls++; // Increment method call for return the value
 
     // Returning the final count
-    countTotalOperations = countAdditions +
-        countSubtractions +
-        countMultiplications +
-        countDivisions +
-        countModulus +
-        countComparisons +
-        countAssignments +
-        countMethodCalls +
-        countMethodReturns;
+    countTotalOperations = updateOperationCount();
 
     return result;
   }
@@ -165,9 +161,24 @@ class Karatsuba implements IMultiplication {
     return countTotalOperations;
   }
 
+  public long updateOperationCount() {
+    return countAdditions + countSubtractions + countMultiplications + countDivisions + countModulus + countComparisons
+        + countAssignments + countMethodCalls + countMethodReturns;
+  }
+
   // Method 5
   // To calculate the value for cg(n) for big O analysis
   public long calculateCGn(int n) {
-    return 28 * n * n; // @TODO: @JackyChung2003: Update value of c in cg(n)
+    if (n <= 1)
+      return 1; // Handle base case where n <= 1
+
+    // Calculate log base 2 of 3
+    double logBase2of3 = Math.log(3) / Math.log(2);
+
+    // Calculate n to the power of log base 2 of 3
+    double result = Math.pow(n, logBase2of3);
+
+    // Return the result as a long
+    return (long) Math.round(result * 130);
   }
 }
