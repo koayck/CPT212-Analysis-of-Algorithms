@@ -10,7 +10,7 @@ public class App {
 
   public static void main(String[] args) {
     performMultiplication(new Karatsuba(), "data/k_data.csv");
-    performMultiplication(new SimpleMultiplication(), "data/sm_data.csv");
+    // performMultiplication(new SimpleMultiplication(), "data/sm_data.csv");
   }
 
   public static void performMultiplication(
@@ -37,7 +37,7 @@ public class App {
       BigInteger x = null;
       BigInteger y = null;
 
-      final int MAX_NUMBER_DIGIT = 10; // To set the maximum number of digits
+      final int MAX_NUMBER_DIGIT = 1000; // To set the maximum number of digits
 
       // ask the user for the number of digits
       // Scanner scanner = new Scanner(System.in);

@@ -43,7 +43,7 @@ class Karatsuba implements IMultiplication {
     // Checking only if input is within range
     if (x.compareTo(BigInteger.TEN) < 0 && y.compareTo(BigInteger.TEN) < 0) {
       countMultiplications++; // Increment multiplication count for x.multiply(y)
-      countMethodCalls++; // Increment method call for return the value
+      countMethodReturns++; // Increment method call for return the value
       return x.multiply(y);
     }
 
@@ -121,6 +121,10 @@ class Karatsuba implements IMultiplication {
 
     int noLen = 0;
     countAssignments++; // Increment assignment count for noLen
+
+    // base case for while
+    countComparisons++;
+    countMethodCalls++;
 
     while (n.compareTo(BigInteger.ZERO) > 0) {
       countComparisons++; // Increment comparison count for n > 0
